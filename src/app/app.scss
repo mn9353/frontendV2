@@ -1,8 +1,51 @@
-.loading-container {
+.cinematic-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: var(--bg-primary); /* Uses dark theme background */
   display: flex;
-  justify-content: center;
   align-items: center;
-  min-height: 80vh;
+  justify-content: center;
+  transition: opacity 0.8s cubic-bezier(0.65, 0, 0.35, 1), transform 0.8s cubic-bezier(0.65, 0, 0.35, 1), filter 0.8s ease;
+  
+  &.hiding {
+    opacity: 0;
+    transform: scale(1.05); /* Slight cinematic scale-out */
+    filter: blur(10px); /* Dissolve effect */
+    pointer-events: none;
+  }
+}
+
+.signature-wrapper {
+  position: relative;
+  width: 250px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  @media (min-width: 768px) {
+    width: 400px;
+    height: 180px;
+  }
+}
+
+.signature-ink {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transform: scale(2.5); /* Offset transparent padding just like the header */
+  
+  /* Wipe animation using clip-path inset */
+  /* inset(top right bottom left) */
+  clip-path: inset(0 100% 0 0);
+  animation: writeSignature 1.8s cubic-bezier(0.7, 0, 0.3, 1) forwards;
+  animation-delay: 0.2s; /* Tiny delay before writing starts */
+}
+
+@keyframes writeSignature {
+  0% { clip-path: inset(0 100% 0 0); }
+  100% { clip-path: inset(0 0 0 0); }
 }
 
 .demo-banner {
@@ -38,15 +81,6 @@
   }
 }
 
-.pulse-loader {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: var(--accent-primary);
-  animation: pulse 1.5s infinite ease-in-out;
-  opacity: 0.6;
-}
-
 .error-container {
   display: flex;
   flex-direction: column;
@@ -65,20 +99,5 @@
     color: var(--text-secondary);
     font-size: 0.95rem;
     margin-bottom: 0.5rem;
-  }
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(0.8);
-    opacity: 0.5;
-  }
-  50% {
-    transform: scale(1.2);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(0.8);
-    opacity: 0.5;
   }
 }

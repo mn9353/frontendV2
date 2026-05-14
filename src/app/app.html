@@ -9,7 +9,7 @@
   </div>
 </div>
 
-<main *ngIf="!loading() && profile(); else loadingTemplate">
+<main *ngIf="profile()">
   <app-hero appRevealOnScroll [profile]="profile()"></app-hero>
   <app-about appRevealOnScroll [profile]="profile()"></app-about>
   <app-experience appRevealOnScroll></app-experience>
@@ -20,16 +20,23 @@
   <app-contact appRevealOnScroll [profile]="profile()"></app-contact>
 </main>
 
-<app-footer [profile]="profile()"></app-footer>
-
-<ng-template #loadingTemplate>
-  <div class="loading-container">
-    <div *ngIf="loading()" class="pulse-loader"></div>
-    
-    <div *ngIf="!loading() && errorMessage()" class="error-container premium-card">
-      <i class="ri-error-warning-line"></i>
-      <p>{{ errorMessage() }}</p>
-      <button class="btn btn-outline" (click)="fetchProfile()">Retry Connection</button>
-    </div>
+<!-- Fallback error view -->
+<div class="container" style="padding-top: 150px; display: flex; justify-content: center;" *ngIf="!loading() && !profile() && errorMessage()">
+  <div class="error-container premium-card">
+    <i class="ri-error-warning-line"></i>
+    <p>{{ errorMessage() }}</p>
+    <button class="btn btn-outline" (click)="fetchProfile()">Retry Connection</button>
   </div>
-</ng-template>
+</div>
+
+<app-footer *ngIf="profile()" [profile]="profile()"></app-footer>
+
+<!-- Cinematic Loader Overlay -->
+<div class="cinematic-loader" *ngIf="loading()" [class.hiding]="isHidingLoader()">
+  <div class="signature-wrapper">
+    <!-- Dynamically swap signature based on theme -->
+    <img [src]="isDark() ? 'https://nhrwkotrxyczxdpkuney.supabase.co/storage/v1/object/public/portfolio_images/other_photos/my_sign_white.webp' : 'https://nhrwkotrxyczxdpkuney.supabase.co/storage/v1/object/public/portfolio_images/other_photos/my_sign_black.webp'" 
+         alt="Loading" 
+         class="signature-ink" />
+  </div>
+</div>

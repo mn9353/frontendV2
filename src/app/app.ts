@@ -48,10 +48,16 @@ export class App implements OnInit {
   
   profile = signal<Profile | null>(null);
   loading = signal<boolean>(true);
+  isHidingLoader = signal<boolean>(false);
   errorMessage = signal<string | null>(null);
   usingDemoData = signal<boolean>(false);
+  isDark = signal<boolean>(true);
 
   ngOnInit() {
+    if (typeof window !== 'undefined') {
+      const savedTheme = window.localStorage.getItem('theme');
+      this.isDark.set(savedTheme ? savedTheme === 'dark' : true);
+    }
     this.portfolioService.mockMode$
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((isMock) => this.usingDemoData.set(isMock));
@@ -61,17 +67,32 @@ export class App implements OnInit {
 
   fetchProfile() {
     this.loading.set(true);
+    this.isHidingLoader.set(false);
     this.errorMessage.set(null);
     
+    // Force a minimum display time for the signature animation to finish drawing
+    const minLoadTime = new Promise(resolve => setTimeout(resolve, 2000));
+    
     this.portfolioService.getProfile().subscribe({
-      next: (data: Profile) => {
+      next: async (data: Profile) => {
         this.profile.set(data);
-        this.loading.set(false);
+        
+        await minLoadTime; // Wait for signature animation
+        
+        this.isHidingLoader.set(true); // Trigger fade out
+        setTimeout(() => {
+          this.loading.set(false); // Remove from DOM
+        }, 1000); // Wait 1s for CSS fade out to finish
       },
-      error: (err: any) => {
+      error: async (err: any) => {
+        await minLoadTime;
         console.error('Error fetching profile', err);
         this.errorMessage.set(`Connection failed: ${err.message || 'Server unreachable'}`);
-        this.loading.set(false);
+        // If error, we still fade out the loader and show error inline
+        this.isHidingLoader.set(true);
+        setTimeout(() => {
+          this.loading.set(false);
+        }, 1000);
       }
     });
   }
