@@ -12,4 +12,10 @@ import { Profile } from '../../core/models/portfolio.models';
 export class FooterComponent {
   @Input() profile: Profile | null = null;
   currentYear = new Date().getFullYear();
+
+  scrollToTop() {
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  }
 }

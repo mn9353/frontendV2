@@ -2,8 +2,9 @@
   <div class="header-shell container">
     <div class="header-container">
     <div class="logo" (click)="scrollToTop()">
-      <span class="logo-text">MINE</span>
-      <span class="logo-dot">.</span>
+      <img [src]="isDark ? 'https://nhrwkotrxyczxdpkuney.supabase.co/storage/v1/object/public/portfolio_images/other_photos/my_sign_white.webp' : 'https://nhrwkotrxyczxdpkuney.supabase.co/storage/v1/object/public/portfolio_images/other_photos/my_sign_black.webp'" 
+           alt="Manoj N Signature" 
+           class="logo-image" />
     </div>
 
     <nav class="desktop-nav">
@@ -41,7 +42,9 @@
     </button>
     </div>
 
-    <div class="mobile-nav" [class.open]="isMenuOpen">
+  </div>
+  
+  <div class="mobile-nav" [class.open]="isMenuOpen">
     <a (click)="scrollTo('about')">About</a>
     <a (click)="scrollTo('experience')">Experience</a>
     <a (click)="scrollTo('projects')">Projects</a>
@@ -69,6 +72,5 @@
         </div>
       </div>
     </div>
-  </div>
   </div>
 </header>

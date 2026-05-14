@@ -5,10 +5,10 @@
 
   <div class="container hero-container">
     <div class="hero-content">
-      <div class="status-badge-wrapper">
+      <div class="status-badge-wrapper" *ngIf="profile?.availabilityStatus">
         <div class="status-badge">
           <span class="status-dot"></span>
-          <span>Available for new projects</span>
+          <span>{{ profile?.availabilityStatus }}</span>
         </div>
       </div>
       
@@ -22,18 +22,7 @@
       
       <div class="hero-actions">
         <a href="#projects" class="btn btn-primary pill">View Projects</a>
-        <a href="#contact" class="btn btn-outline pill">Get in touch</a>
-      </div>
-
-      <div class="hero-social" *ngIf="profile">
-        <a *ngIf="profile.githubUrl" [href]="profile.githubUrl" target="_blank" class="social-link">
-          <i class="ri-github-line"></i>
-          <span>GitHub</span>
-        </a>
-        <a *ngIf="profile.linkedinUrl" [href]="profile.linkedinUrl" target="_blank" class="social-link">
-          <i class="ri-linkedin-line"></i>
-          <span>LinkedIn</span>
-        </a>
+        <a *ngIf="profile?.resumeUrl" [href]="profile?.resumeUrl" target="_blank" download class="btn btn-outline pill">Download Resume</a>
       </div>
     </div>
   </div>

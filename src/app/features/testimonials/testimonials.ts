@@ -12,7 +12,15 @@ import { PortfolioService } from '../../core/services/portfolio.service';
 })
 export class TestimonialsComponent implements OnInit {
   testimonials = signal<Testimonial[]>([]);
+  expandedTestimonials = signal<Record<number, boolean>>({});
   portfolioService = inject(PortfolioService);
+
+  toggleTestimonial(index: number) {
+    this.expandedTestimonials.update(prev => ({
+      ...prev,
+      [index]: !prev[index]
+    }));
+  }
 
   ngOnInit() {
     this.portfolioService.getTestimonials().subscribe(data => {

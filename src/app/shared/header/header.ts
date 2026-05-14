@@ -1,4 +1,4 @@
-import { Component, DestroyRef, Input, OnInit, inject } from '@angular/core';
+import { Component, DestroyRef, Input, OnInit, inject, ChangeDetectorRef, HostListener, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Profile } from '../../core/models/portfolio.models';
 import { LanguageOption } from '../../core/models/portfolio.models';
@@ -18,6 +18,8 @@ export class HeaderComponent implements OnInit {
   @Input() profile: Profile | null = null;
   private destroyRef = inject(DestroyRef);
   private portfolioService = inject(PortfolioService);
+  private cdr = inject(ChangeDetectorRef);
+  private el = inject(ElementRef);
   
   isMenuOpen = false;
   isDark = true;
@@ -29,12 +31,15 @@ export class HeaderComponent implements OnInit {
   isLangMenuOpen = false;
 
   atTop = true;
+  inHero = true;
   isHidden = false;
   isHovering = false;
   private lastScrollY = 0;
   private readonly topThresholdPx = 10;
-  private readonly hideAfterPx = 80;
-  private readonly revealOnUpThresholdPx = 6;
+  
+  private get heroThresholdPx(): number {
+    return typeof window !== 'undefined' ? window.innerHeight * 0.9 : 600;
+  }
 
   private getScrollY(): number {
     return (
@@ -57,6 +62,7 @@ export class HeaderComponent implements OnInit {
 
     this.lastScrollY = this.getScrollY();
     this.atTop = this.lastScrollY <= this.topThresholdPx;
+    this.inHero = this.lastScrollY <= this.heroThresholdPx;
 
     const scrollY$ = fromEvent(window, 'scroll').pipe(
       auditTime(30),
@@ -71,38 +77,47 @@ export class HeaderComponent implements OnInit {
       .subscribe(([prevY, nextY]) => {
         const y = nextY;
         const delta = y - prevY;
-        const goingDown = delta > 1;
-        const goingUp = delta < -1;
 
         this.atTop = y <= this.topThresholdPx;
+        this.inHero = y <= this.heroThresholdPx;
 
-        if (this.atTop) {
-          this.isHidden = false;
+        if (this.inHero) {
+          if (this.isHidden) {
+            this.isHidden = false;
+            this.cdr.detectChanges();
+          }
           return;
         }
 
-        // Scrolling down past the fold should always hide (even if hovering).
-        if (goingDown && y > this.hideAfterPx) {
-          this.isHidden = true;
-          this.isMenuOpen = false;
-          this.isLangMenuOpen = false;
-          return;
-        }
-
-        // Scrolling up should reveal (ignore tiny jitter).
-        if (goingUp && Math.abs(delta) >= this.revealOnUpThresholdPx) {
-          this.isHidden = false;
+        if (delta > 5) {
+          // Scrolling down -> hide
+          if (!this.isHidden) {
+            this.isHidden = true;
+            this.isMenuOpen = false;
+            this.isLangMenuOpen = false;
+            this.cdr.detectChanges();
+          }
+        } else if (delta < -5) {
+          // Scrolling up -> show
+          if (this.isHidden) {
+            this.isHidden = false;
+            this.cdr.detectChanges();
+          }
         }
       });
 
-    // When scrolling stops, auto-hide unless at top or hovering.
+    // When scrolling stops for 2 seconds, disappear (unless in hero section or hovering)
     scrollY$
-      .pipe(debounceTime(160))
-      .subscribe(() => {
-        if (!this.atTop && !this.isHovering) {
-          this.isHidden = true;
-          this.isMenuOpen = false;
-          this.isLangMenuOpen = false;
+      .pipe(debounceTime(2000))
+      .subscribe((y) => {
+        const currentInHero = y <= this.heroThresholdPx;
+        if (!currentInHero && !this.isHovering) {
+          if (!this.isHidden) {
+            this.isHidden = true;
+            this.isMenuOpen = false;
+            this.isLangMenuOpen = false;
+            this.cdr.detectChanges();
+          }
         }
       });
   }
@@ -130,17 +145,30 @@ export class HeaderComponent implements OnInit {
 
   onHeaderEnter() {
     this.isHovering = true;
-    this.isHidden = false;
+    this.isHidden = false; // keep it visible while hovering
   }
 
   onHeaderLeave() {
     this.isHovering = false;
-    // If you're mid-page, let it auto-hide quickly when you stop interacting.
-    if (!this.atTop) this.isHidden = true;
+    // We do NOT immediately hide here. Let the user's scroll activity handle it.
   }
 
   toggleMenu() {
     this.isMenuOpen = !this.isMenuOpen;
+    if (!this.isMenuOpen) {
+      this.isLangMenuOpen = false; // also close dropdown if menu is closed
+    }
+  }
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    // If either menu is open and the click was outside the header entirely
+    if (this.isMenuOpen || this.isLangMenuOpen) {
+      if (!this.el.nativeElement.contains(event.target as Node)) {
+        this.isMenuOpen = false;
+        this.isLangMenuOpen = false;
+      }
+    }
   }
 
   toggleTheme() {

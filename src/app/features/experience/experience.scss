@@ -4,45 +4,56 @@
   gap: var(--spacing-lg);
   max-width: 1200px;
   position: relative;
-  padding-left: 1.5rem;
   
-  &::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 1px;
-    background: linear-gradient(to bottom, var(--border-color) 0%, var(--border-color) 80%, transparent 100%);
+  /* Timeline line hidden on mobile, shown on tablet+ */
+  @media (min-width: 768px) {
+    padding-left: 1.5rem;
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--border-color) 0%, var(--border-color) 80%, transparent 100%);
+    }
   }
 }
 
 .timeline-item {
-  padding: var(--spacing-xl);
+  padding: 1.25rem; /* Tighter padding on mobile */
   position: relative;
   
   &:hover {
     border-color: rgba(255, 255, 255, 0.15);
-    transform: translateX(10px);
+    transform: translateY(-5px); /* Vertical lift on mobile instead of horizontal */
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
   }
   
-  &::before {
-    content: '';
-    position: absolute;
-    left: -1.5rem;
-    top: 2.5rem;
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    background: var(--text-muted);
-    border: 2px solid var(--bg-primary);
-    transform: translateX(-50%);
-  }
-  
-  &:hover::before {
-    background: var(--text-primary);
-    box-shadow: 0 0 10px var(--accent-glow);
+  @media (min-width: 768px) {
+    padding: var(--spacing-xl);
+    
+    &:hover {
+      transform: translateX(10px); /* Horizontal push on desktop */
+    }
+    
+    &::before {
+      content: '';
+      position: absolute;
+      left: -1.5rem;
+      top: 2.5rem;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--text-muted);
+      border: 2px solid var(--bg-primary);
+      transform: translateX(-50%);
+    }
+    
+    &:hover::before {
+      background: var(--text-primary);
+      box-shadow: 0 0 10px var(--accent-glow);
+    }
   }
 }
 
@@ -104,9 +115,36 @@
 
 .tech-stack {
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
   gap: 0.5rem;
   margin-top: var(--spacing-md);
+}
+
+.tech-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  border: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: transform var(--transition-normal), background var(--transition-normal);
+
+  &:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.08);
+  }
+
+  .tech-icon {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+    filter: saturate(0.9) contrast(1.1);
+  }
 }
 
 .company-row {
@@ -136,3 +174,30 @@
   font-weight: 600;
   border: 1px solid rgba(16, 185, 129, 0.2);
 }
+
+.company-logo {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  border-radius: 4px;
+}
+
+.view-more-btn {
+  background: transparent;
+  border: none;
+  color: var(--accent-primary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+  margin-top: -0.5rem;
+  margin-bottom: var(--spacing-md);
+  transition: color var(--transition-normal);
+  display: inline-block;
+  
+  &:hover {
+    color: var(--text-primary);
+    text-decoration: underline;
+  }
+}
+

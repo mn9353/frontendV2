@@ -1,10 +1,36 @@
 .projects-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--spacing-lg);
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 1rem;
+  margin: 0 -1rem; /* Negative margin to pull to edges if needed, but wrapper padding handles inner space */
+  
+  &::-webkit-scrollbar {
+    height: 8px;
+  }
+  &::-webkit-scrollbar-track {
+    background: var(--bg-primary);
+  }
+  &::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+  }
+}
 
+.project-card-wrapper {
+  padding: 1.5rem 1rem 2.5rem 1rem;
+  flex-shrink: 0;
+  flex: 0 0 85%; /* Peek next card on mobile */
+  scroll-snap-align: start;
+  min-width: 280px;
+  max-width: 550px;
+  
   @media (min-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
+    flex: 0 0 calc(50% - 1rem); /* 2 cards per row on tablet */
+  }
+  
+  @media (min-width: 1200px) {
+    flex: 0 0 calc(33.333% - 1rem); /* 3 cards per row on desktop */
   }
 }
 
@@ -13,6 +39,7 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  height: 100%;
 }
 
 .project-cover {
@@ -46,13 +73,19 @@
   margin-bottom: var(--spacing-md);
 }
 
+.project-badges {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
 .project-type {
   font-size: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
   font-weight: 500;
   display: block;
-  margin-bottom: 0.25rem;
 }
 
 .project-name {
@@ -81,11 +114,37 @@
   flex: 1;
 }
 
-.tech-stack {
+.project-tech {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
+  gap: 0.5rem;
   margin-top: auto;
+}
+
+.tech-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  font-weight: 500;
+  transition: transform var(--transition-normal), background var(--transition-normal);
+}
+
+.tech-chip:hover {
+  transform: translateY(-1px);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.tech-icon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  filter: saturate(0.9) contrast(1.1);
 }
 
 .featured-badge {
@@ -98,6 +157,204 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  margin-bottom: 0.5rem;
   border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Project Modal via native <dialog> */
+.project-modal {
+  margin: auto;
+  padding: 0;
+  border: none;
+  background: transparent;
+  max-width: 100vw;
+  max-height: 100vh;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  outline: none;
+  
+  &::backdrop {
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+  }
+}
+
+.project-modal[open] {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end; /* Mobile: slide up from bottom */
+  
+  @media (min-width: 768px) {
+    align-items: center; /* Desktop: center */
+    padding: 2rem;
+  }
+}
+
+.project-modal-content {
+  width: 100%;
+  position: relative;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp var(--transition-normal);
+  overflow: hidden;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color) !important;
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.3);
+  
+  @media (min-width: 768px) {
+    max-width: 800px;
+    border-radius: 16px;
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    animation: scaleUp var(--transition-normal);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 40px var(--accent-glow);
+  }
+}
+
+.modal-scroll-area {
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  
+  /* Minimalist scrollbar */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: var(--text-muted);
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary);
+  }
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.25rem;
+  cursor: pointer;
+  z-index: 100;
+  transition: all var(--transition-fast);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: scale(1.05);
+  }
+}
+
+.modal-cover {
+  width: 100%;
+  aspect-ratio: 16/9;
+  position: relative;
+  
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 40%;
+    background: linear-gradient(to top, var(--bg-primary), transparent);
+    pointer-events: none;
+  }
+}
+
+.modal-info {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  position: relative;
+  z-index: 2;
+  
+  @media (min-width: 768px) {
+    padding: 2.5rem;
+    gap: 2rem;
+  }
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  margin-top: -0.5rem;
+  
+  @media (min-width: 768px) {
+    font-size: 2.2rem;
+    margin-top: -1rem;
+  }
+}
+
+.modal-links {
+  margin-top: -0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  
+  .btn {
+    padding: 0.6rem 1.2rem;
+    font-size: 0.9rem;
+    flex: 1;
+    text-align: center;
+    
+    @media (min-width: 768px) {
+      flex: none;
+    }
+  }
+}
+
+.modal-section {
+  h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+    
+    @media (min-width: 768px) {
+      font-size: 1.2rem;
+    }
+  }
+  p {
+    line-height: 1.8;
+    font-size: 0.95rem;
+    
+    @media (min-width: 768px) {
+      font-size: 1rem;
+    }
+  }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes scaleUp {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
