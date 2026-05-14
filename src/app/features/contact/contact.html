@@ -1,0 +1,38 @@
+<section id="contact" class="section">
+  <div class="container">
+    <div class="contact-inner premium-card">
+      <h2 class="contact-heading">Let's Build Something Great</h2>
+      <p class="contact-sub text-secondary">
+        Whether you have a project in mind, need a backend engineer, or just want to connect — I'm always open to a conversation.
+      </p>
+      <div class="contact-actions">
+        <a *ngIf="profile?.email" [href]="'mailto:' + profile?.email" class="btn btn-primary">
+          <i class="ri-mail-send-line"></i>
+          Send me an email
+        </a>
+        <a *ngIf="profile?.resumeUrl" [href]="profile?.resumeUrl" target="_blank" class="btn btn-outline">
+          <i class="ri-file-text-line"></i>
+          View Resume
+        </a>
+      </div>
+      <div class="contact-social">
+        <a *ngIf="profile?.linkedinUrl" [href]="profile?.linkedinUrl" target="_blank">
+          <i class="ri-linkedin-fill"></i>
+          LinkedIn
+        </a>
+        <a *ngIf="profile?.githubUrl" [href]="profile?.githubUrl" target="_blank">
+          <i class="ri-github-fill"></i>
+          GitHub
+        </a>
+        <a *ngIf="profile?.leetcodeUrl" [href]="profile?.leetcodeUrl" target="_blank">
+          <i class="ri-code-box-line"></i>
+          LeetCode
+        </a>
+        <a *ngIf="profile?.twitterUrl" [href]="profile?.twitterUrl" target="_blank">
+          <i class="ri-twitter-x-line"></i>
+          Twitter
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

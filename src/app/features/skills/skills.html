@@ -1,0 +1,46 @@
+<section id="skills" class="section">
+  <div class="container">
+    <h2 class="section-title">Skills</h2>
+
+    <div class="skill-groups">
+      <article class="skill-group-card premium-card" appRevealOnScroll *ngFor="let group of categories()">
+        <header class="group-header">
+          <div class="group-title">
+            <h3 class="group-name">{{ group }}</h3>
+          </div>
+          <p class="group-sub text-secondary">
+            {{ group === 'Frontend' ? 'UI engineering, state, and performance.' :
+               group === 'Backend' ? 'APIs, auth, and architecture.' :
+               group === 'Database' ? 'Data modeling and query performance.' :
+               group === 'DevOps & Cloud' ? 'Deployments, containers, and infra.' :
+               group === 'Languages' ? 'Daily drivers and fundamentals.' :
+               'Tooling and utilities.' }}
+          </p>
+        </header>
+
+        <div class="group-grid">
+          <div class="skill-item" appRevealOnScroll [revealOnce]="true" [revealOffset]="'0px 0px -6% 0px'"
+               *ngFor="let skill of groupedSkills()[group]" [title]="skill.skillName"
+               [style.border-color]="skill.brandColor ? skill.brandColor + '33' : 'var(--border-color)'"
+               [style.background]="skill.brandColor ? skill.brandColor + '10' : 'rgba(255,255,255,0.03)'">
+            <div class="skill-item-icon"
+                 [style.background]="skill.brandColor ? skill.brandColor + '14' : 'rgba(255,255,255,0.06)'"
+                 [style.border-color]="skill.brandColor ? skill.brandColor + '33' : 'var(--border-color)'">
+              <img *ngIf="skill.logoUrl" [src]="skill.logoUrl" [alt]="skill.skillName" />
+              <span *ngIf="!skill.logoUrl" class="skill-item-fallback" [style.color]="skill.brandColor || 'var(--text-primary)'">
+                {{ (skill.shortForm || skill.skillName).slice(0, 3) }}
+              </span>
+            </div>
+
+            <div class="skill-item-text">
+              <span class="skill-item-name">{{ skill.skillName }}</span>
+              <span class="skill-item-short text-muted" *ngIf="skill.shortForm && skill.shortForm !== skill.skillName">
+                {{ skill.shortForm }}
+              </span>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>

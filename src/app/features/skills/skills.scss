@@ -1,0 +1,120 @@
+.skill-groups {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+
+  @media (min-width: 900px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.skill-group-card {
+  padding: 1.25rem;
+
+  &:hover {
+    transform: translateY(-8px);
+  }
+}
+
+.group-header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.group-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.group-name {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  font-size: 1.25rem;
+  line-height: 1.1;
+}
+
+.group-sub {
+  font-size: 0.95rem;
+  max-width: 60ch;
+}
+
+.group-grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 0.75rem;
+
+  @media (min-width: 520px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (min-width: 1200px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+.skill-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 0.85rem;
+  border-radius: 14px;
+  border: 1px solid var(--border-color);
+  transition: all var(--transition-normal);
+
+  &:hover {
+    transform: translateY(-3px);
+    background: var(--bg-surface-hover);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+}
+
+.skill-item-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--border-color);
+  background: rgba(255, 255, 255, 0.06);
+
+  img {
+    width: 22px;
+    height: 22px;
+    object-fit: contain;
+    filter: saturate(0.9) contrast(1.1);
+  }
+}
+
+.skill-item-fallback {
+  font-family: var(--font-display);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+.skill-item-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  min-width: 0;
+}
+
+.skill-item-name {
+  font-weight: 650;
+  color: var(--text-primary);
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.skill-item-short {
+  font-size: 0.85rem;
+  line-height: 1.1;
+}

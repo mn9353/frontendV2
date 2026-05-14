@@ -1,0 +1,40 @@
+<section id="experience" class="section">
+  <div class="container">
+    <h2 class="section-title">Experience</h2>
+    
+    <div class="timeline">
+      <div class="timeline-item glass-panel" *ngFor="let exp of experiences()">
+        <div class="timeline-header">
+          <div class="timeline-title">
+            <h3>{{ exp.role }}</h3>
+            <div class="company-row">
+              <span class="company">{{ exp.companyName }}</span>
+              <span class="location" *ngIf="exp.location">{{ exp.location }}</span>
+              <span class="metric-badge" *ngIf="exp.highlightMetric">{{ exp.highlightMetric }}</span>
+            </div>
+          </div>
+          <div class="timeline-meta">
+            <span class="date">{{ formatDate(exp.startDate) }} - {{ exp.isCurrent ? 'Present' : formatDate(exp.endDate) }}</span>
+          </div>
+        </div>
+        
+        <p class="timeline-desc text-secondary" *ngIf="exp.shortDescription">
+          {{ exp.shortDescription }}
+        </p>
+        
+        <ul class="timeline-points text-secondary" *ngIf="exp.descriptionPoints && exp.descriptionPoints.length > 0">
+          <li *ngFor="let point of exp.descriptionPoints">{{ point }}</li>
+        </ul>
+        
+        <div class="tech-stack" *ngIf="exp.technologiesUsed">
+          <span class="tech-chip" *ngFor="let tech of exp.technologiesUsed"
+                [style.border-color]="tech.color + '44'"
+                [style.background]="tech.color + '11'"
+                [style.color]="tech.color">
+            {{ tech.technology }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

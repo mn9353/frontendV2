@@ -1,0 +1,21 @@
+<section id="testimonials" class="section" *ngIf="testimonials().length > 0">
+  <div class="container">
+    <h2 class="section-title">Testimonials</h2>
+    <div class="testimonials-grid">
+      <div class="testimonial-card premium-card" *ngFor="let t of testimonials()">
+        <div class="quote-icon"><i class="ri-double-quotes-l"></i></div>
+        <p class="testimonial-text text-secondary">{{ t.content }}</p>
+        <div class="testimonial-author">
+          <img *ngIf="t.profileImageUrl" [src]="t.profileImageUrl" [alt]="t.clientName" class="author-avatar">
+          <div class="author-info" *ngIf="!t.profileImageUrl" class="author-avatar-placeholder">
+            {{ t.clientName?.charAt(0) }}
+          </div>
+          <div class="author-details">
+            <span class="author-name">{{ t.clientName }}</span>
+            <span class="author-role text-muted">{{ t.role }}, {{ t.companyName }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

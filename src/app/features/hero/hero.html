@@ -1,0 +1,45 @@
+<section class="hero-section">
+  <!-- Dynamic Background Glows -->
+  <div class="hero-glow glow-1"></div>
+  <div class="hero-glow glow-2"></div>
+
+  <div class="container hero-container">
+    <div class="hero-content">
+      <div class="status-badge-wrapper">
+        <div class="status-badge">
+          <span class="status-dot"></span>
+          <span>Available for new projects</span>
+        </div>
+      </div>
+      
+      <h1 class="hero-title text-gradient" *ngIf="profile">
+        {{ profile.fullName }}
+      </h1>
+      
+      <p class="hero-subtitle" *ngIf="profile">
+        {{ profile.role }}
+      </p>
+      
+      <div class="hero-actions">
+        <a href="#projects" class="btn btn-primary pill">View Projects</a>
+        <a href="#contact" class="btn btn-outline pill">Get in touch</a>
+      </div>
+
+      <div class="hero-social" *ngIf="profile">
+        <a *ngIf="profile.githubUrl" [href]="profile.githubUrl" target="_blank" class="social-link">
+          <i class="ri-github-line"></i>
+          <span>GitHub</span>
+        </a>
+        <a *ngIf="profile.linkedinUrl" [href]="profile.linkedinUrl" target="_blank" class="social-link">
+          <i class="ri-linkedin-line"></i>
+          <span>LinkedIn</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-indicator">
+    <div class="mouse"></div>
+    <span>Scroll</span>
+  </div>
+</section>

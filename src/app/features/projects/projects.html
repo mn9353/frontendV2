@@ -1,0 +1,38 @@
+<section id="projects" class="section">
+  <div class="container">
+    <h2 class="section-title">Projects</h2>
+    <div class="projects-grid">
+      <div class="project-card premium-card" *ngFor="let project of projects()">
+        <div class="project-cover" *ngIf="project.coverImageUrl">
+          <img [src]="project.coverImageUrl" [alt]="project.projectName">
+        </div>
+        <div class="project-content">
+          <div class="project-header">
+            <div>
+              <span class="project-type text-muted" *ngIf="project.projectType">{{ project.projectType }}</span>
+              <span class="featured-badge" *ngIf="project.featured">Featured</span>
+              <h3 class="project-name">{{ project.projectName }}</h3>
+            </div>
+            <div class="project-links">
+              <a *ngIf="project.githubUrl" [href]="project.githubUrl" target="_blank" aria-label="GitHub">
+                <i class="ri-github-fill"></i>
+              </a>
+              <a *ngIf="project.liveUrl" [href]="project.liveUrl" target="_blank" aria-label="Live">
+                <i class="ri-external-link-line"></i>
+              </a>
+            </div>
+          </div>
+          <p class="project-desc text-secondary">{{ project.shortDescription }}</p>
+          <div class="project-tech" *ngIf="project.technologiesUsed">
+          <span class="tech-chip" *ngFor="let tech of project.technologiesUsed"
+                [style.border-color]="tech.color + '44'"
+                [style.background]="tech.color + '11'"
+                [style.color]="tech.color">
+            {{ tech.technology }}
+          </span>
+        </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

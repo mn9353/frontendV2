@@ -1,0 +1,74 @@
+<header class="header" [class.at-top]="atTop" [class.hidden]="isHidden" (mouseenter)="onHeaderEnter()" (mouseleave)="onHeaderLeave()">
+  <div class="header-shell container">
+    <div class="header-container">
+    <div class="logo" (click)="scrollToTop()">
+      <span class="logo-text">MINE</span>
+      <span class="logo-dot">.</span>
+    </div>
+
+    <nav class="desktop-nav">
+      <a (click)="scrollTo('about')">About</a>
+      <a (click)="scrollTo('experience')">Experience</a>
+      <a (click)="scrollTo('projects')">Projects</a>
+      <a (click)="scrollTo('skills')">Skills</a>
+      <a (click)="scrollTo('contact')" class="btn btn-outline">Contact</a>
+      
+      <div class="header-actions-group">
+        <button class="theme-toggle" (click)="toggleTheme()" [title]="isDark ? 'Switch to Light' : 'Switch to Dark'">
+          <i [class]="isDark ? 'ri-sun-line' : 'ri-moon-line'"></i>
+        </button>
+        
+        <div class="lang-switcher">
+          <button class="lang-btn" (click)="toggleLangMenu()">
+            <i class="ri-translate-2"></i>
+            <span>{{ currentLang }}</span>
+            <i class="ri-arrow-down-s-line chevron"></i>
+          </button>
+          <div class="lang-dropdown" *ngIf="isLangMenuOpen">
+            <button type="button" class="lang-item" *ngFor="let lang of languages" (click)="setLang(lang.languageCode)" [class.active]="lang.languageCode === currentLang">
+              <span class="lang-code">{{ lang.languageCode }}</span>
+              <span class="lang-name">{{ lang.languageName }}</span>
+              <i class="ri-check-line" *ngIf="lang.languageCode === currentLang"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <button class="mobile-toggle" (click)="toggleMenu()">
+      <i class="ri-menu-4-line" *ngIf="!isMenuOpen"></i>
+      <i class="ri-close-line" *ngIf="isMenuOpen"></i>
+    </button>
+    </div>
+
+    <div class="mobile-nav" [class.open]="isMenuOpen">
+    <a (click)="scrollTo('about')">About</a>
+    <a (click)="scrollTo('experience')">Experience</a>
+    <a (click)="scrollTo('projects')">Projects</a>
+    <a (click)="scrollTo('skills')">Skills</a>
+    <a class="btn btn-outline" (click)="scrollTo('contact')">Get in touch</a>
+
+    <div class="mobile-actions">
+      <button class="theme-toggle" (click)="toggleTheme()" [title]="isDark ? 'Switch to Light' : 'Switch to Dark'">
+        <i [class]="isDark ? 'ri-sun-line' : 'ri-moon-line'"></i>
+        <span>Theme</span>
+      </button>
+
+      <div class="lang-switcher">
+        <button class="lang-btn" (click)="toggleLangMenu()">
+          <i class="ri-translate-2"></i>
+          <span>{{ currentLang }}</span>
+          <i class="ri-arrow-down-s-line chevron"></i>
+        </button>
+        <div class="lang-dropdown" *ngIf="isLangMenuOpen">
+          <button type="button" class="lang-item" *ngFor="let lang of languages" (click)="setLang(lang.languageCode)" [class.active]="lang.languageCode === currentLang">
+            <span class="lang-code">{{ lang.languageCode }}</span>
+            <span class="lang-name">{{ lang.languageName }}</span>
+            <i class="ri-check-line" *ngIf="lang.languageCode === currentLang"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+</header>

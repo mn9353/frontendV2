@@ -1,0 +1,14 @@
+<section id="about" class="section">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-content">
+        <h2 class="section-title">About Me</h2>
+        <div class="about-text" [innerHTML]="profile?.aboutMe"></div>
+      </div>
+      
+      <div class="about-image-wrapper" *ngIf="profile?.profileImageUrl">
+        <img [src]="profile?.profileImageUrl" [alt]="profile?.fullName" class="about-image">
+      </div>
+    </div>
+  </div>
+</section>

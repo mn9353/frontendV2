@@ -1,0 +1,35 @@
+<div class="glow-bg"></div>
+<app-header [profile]="profile()"></app-header>
+
+<div class="demo-banner" *ngIf="usingDemoData()">
+  <div class="container demo-banner-inner">
+    <i class="ri-cloud-off-line"></i>
+    <span>Showing demo data (API unreachable). Update your backend/CORS or set the correct API URL.</span>
+    <button class="btn btn-outline demo-banner-btn" (click)="fetchProfile()">Retry</button>
+  </div>
+</div>
+
+<main *ngIf="!loading() && profile(); else loadingTemplate">
+  <app-hero appRevealOnScroll [profile]="profile()"></app-hero>
+  <app-about appRevealOnScroll [profile]="profile()"></app-about>
+  <app-experience appRevealOnScroll></app-experience>
+  <app-projects appRevealOnScroll></app-projects>
+  <app-skills appRevealOnScroll></app-skills>
+  <app-achievements appRevealOnScroll></app-achievements>
+  <app-testimonials appRevealOnScroll></app-testimonials>
+  <app-contact appRevealOnScroll [profile]="profile()"></app-contact>
+</main>
+
+<app-footer [profile]="profile()"></app-footer>
+
+<ng-template #loadingTemplate>
+  <div class="loading-container">
+    <div *ngIf="loading()" class="pulse-loader"></div>
+    
+    <div *ngIf="!loading() && errorMessage()" class="error-container premium-card">
+      <i class="ri-error-warning-line"></i>
+      <p>{{ errorMessage() }}</p>
+      <button class="btn btn-outline" (click)="fetchProfile()">Retry Connection</button>
+    </div>
+  </div>
+</ng-template>
