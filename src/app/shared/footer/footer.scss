@@ -22,6 +22,7 @@
   font-weight: 700;
   font-size: 1rem;
   letter-spacing: -0.02em;
+  font-family: var(--font-display);
   
   @media (min-width: 768px) {
     flex: 1;
@@ -45,22 +46,15 @@
 .back-to-top {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
   gap: 0.5rem;
-  padding: 0.55rem 1.25rem;
-  border-radius: 999px;
   background: transparent;
-  border: 1px solid var(--border-color);
+  border: none;
   color: var(--text-secondary);
-  font-size: 0.85rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all var(--transition-normal);
+  font-family: var(--font-display);
   
   &:hover {
     color: var(--text-primary);
-    background: var(--bg-surface-hover);
-    transform: translateY(-3px);
-    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+    font-size: 1.02em;
   }
 }
