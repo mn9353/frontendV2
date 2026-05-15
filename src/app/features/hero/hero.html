@@ -13,16 +13,16 @@
       </div>
       
       <h1 class="hero-title text-gradient" *ngIf="profile">
-        {{ profile.fullName }}
+        {{ profile.fullName | translate }}
       </h1>
       
       <p class="hero-subtitle" *ngIf="profile">
-        {{ profile.role }}
+        {{ profile.role | translate }}
       </p>
       
       <div class="hero-actions">
-        <a href="#projects" class="btn btn-primary pill">View Projects</a>
-        <a *ngIf="profile?.resumeUrl" [href]="profile?.resumeUrl" target="_blank" download class="btn btn-outline pill">Download Resume</a>
+        <a href="#projects" class="btn btn-primary pill">{{'View Projects'|translate}}</a>
+        <a *ngIf="profile?.resumeUrl" [href]="formatUrl(profile?.resumeUrl)" target="_blank" download class="btn btn-outline pill">{{'Download Resume'|translate}}</a>
       </div>
     </div>
   </div>

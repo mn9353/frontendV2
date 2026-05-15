@@ -1,36 +1,37 @@
 <section id="contact" class="section">
   <div class="container">
     <div class="contact-inner premium-card">
-      <h2 class="contact-heading">Let's Build Something Great</h2>
+      <h2 class="contact-heading">{{ "Let's Build Something Great" | translate }}</h2>
       <p class="contact-sub text-secondary">
-        Whether you have a project in mind, need a backend engineer, or just want to connect — I'm always open to a conversation.
+        {{ 'Whether you have a project in mind, need a backend engineer, or just want to connect - I\'m always open to a
+        conversation.' | translate }}
       </p>
       <div class="contact-actions">
         <a *ngIf="profile?.email" [href]="'mailto:' + profile?.email" class="btn btn-primary">
           <i class="ri-mail-send-line"></i>
-          Send me an email
+          {{ 'Send me an email' | translate }}
         </a>
-        <a *ngIf="profile?.resumeUrl" [href]="profile?.resumeUrl" target="_blank" class="btn btn-outline">
+        <a *ngIf="profile?.resumeUrl" [href]="formatUrl(profile?.resumeUrl)" target="_blank" class="btn btn-outline">
           <i class="ri-file-text-line"></i>
-          View Resume
+          {{ 'View Resume' | translate }}
         </a>
       </div>
       <div class="contact-social">
-        <a *ngIf="profile?.linkedinUrl" [href]="profile?.linkedinUrl" target="_blank">
+        <a *ngIf="profile?.linkedinUrl" [href]="formatUrl(profile?.linkedinUrl)" target="_blank">
           <i class="ri-linkedin-fill"></i>
-          LinkedIn
+          {{ 'LinkedIn' | translate }}
         </a>
-        <a *ngIf="profile?.githubUrl" [href]="profile?.githubUrl" target="_blank">
+        <a *ngIf="profile?.githubUrl" [href]="formatUrl(profile?.githubUrl)" target="_blank">
           <i class="ri-github-fill"></i>
-          GitHub
+          {{ 'GitHub' | translate }}
         </a>
-        <a *ngIf="profile?.leetcodeUrl" [href]="profile?.leetcodeUrl" target="_blank">
+        <a *ngIf="profile?.leetcodeUrl" [href]="formatUrl(profile?.leetcodeUrl)" target="_blank">
           <i class="ri-code-box-line"></i>
-          LeetCode
+          {{ 'LeetCode' | translate }}
         </a>
-        <a *ngIf="profile?.twitterUrl" [href]="profile?.twitterUrl" target="_blank">
+        <a *ngIf="profile?.twitterUrl" [href]="formatUrl(profile?.twitterUrl)" target="_blank">
           <i class="ri-twitter-x-line"></i>
-          Twitter
+          {{ 'Twitter' | translate }}
         </a>
       </div>
     </div>

@@ -8,11 +8,11 @@
     </div>
 
     <nav class="desktop-nav">
-      <a (click)="scrollTo('about')">About</a>
-      <a (click)="scrollTo('experience')">Experience</a>
-      <a (click)="scrollTo('projects')">Projects</a>
-      <a (click)="scrollTo('skills')">Skills</a>
-      <a (click)="scrollTo('contact')" class="btn btn-outline">Contact</a>
+      <a (click)="scrollTo('about')">{{ 'About' | translate }}</a>
+      <a (click)="scrollTo('experience')">{{ 'Experience' | translate }}</a>
+      <a (click)="scrollTo('projects')">{{ 'Projects' | translate }}</a>
+      <a (click)="scrollTo('skills')">{{ 'Skills' | translate }}</a>
+      <a (click)="scrollTo('contact')" class="btn btn-outline">{{ 'Contact' | translate }}</a>
       
       <div class="header-actions-group">
         <button class="theme-toggle" (click)="toggleTheme()" [title]="isDark ? 'Switch to Light' : 'Switch to Dark'">
@@ -44,17 +44,17 @@
 
   </div>
   
-  <div class="mobile-nav" [class.open]="isMenuOpen">
-    <a (click)="scrollTo('about')">About</a>
-    <a (click)="scrollTo('experience')">Experience</a>
-    <a (click)="scrollTo('projects')">Projects</a>
-    <a (click)="scrollTo('skills')">Skills</a>
-    <a class="btn btn-outline" (click)="scrollTo('contact')">Get in touch</a>
+  <nav class="mobile-nav" [class.open]="isMenuOpen">
+    <a (click)="scrollTo('about')">{{ 'About' | translate }}</a>
+    <a (click)="scrollTo('experience')">{{ 'Experience' | translate }}</a>
+    <a (click)="scrollTo('projects')">{{ 'Projects' | translate }}</a>
+    <a (click)="scrollTo('skills')">{{ 'Skills' | translate }}</a>
+    <a class="btn btn-outline" (click)="scrollTo('contact')">{{ 'Get in touch' | translate }}</a>
 
     <div class="mobile-actions">
       <button class="theme-toggle" (click)="toggleTheme()" [title]="isDark ? 'Switch to Light' : 'Switch to Dark'">
         <i [class]="isDark ? 'ri-sun-line' : 'ri-moon-line'"></i>
-        <span>Theme</span>
+        <span>{{ 'Theme' | translate }}</span>
       </button>
 
       <div class="lang-switcher">
@@ -72,5 +72,5 @@
         </div>
       </div>
     </div>
-  </div>
+  </nav>
 </header>

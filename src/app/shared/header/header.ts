@@ -6,11 +6,13 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { fromEvent } from 'rxjs';
 import { auditTime, debounceTime, map, pairwise, startWith } from 'rxjs/operators';
 import { PortfolioService } from '../../core/services/portfolio.service';
+import { TranslationService } from '../../core/services/translation.service';
+import { TranslatePipe } from '../pipes/translate.pipe';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslatePipe],
   templateUrl: './header.html',
   styleUrls: ['./header.scss']
 })
@@ -20,13 +22,17 @@ export class HeaderComponent implements OnInit {
   private portfolioService = inject(PortfolioService);
   private cdr = inject(ChangeDetectorRef);
   private el = inject(ElementRef);
+  private translationService = inject(TranslationService);
   
   isMenuOpen = false;
   isDark = true;
-  currentLang = 'EN';
+  
+  get currentLang() {
+    return this.translationService.currentLang();
+  }
+  
   languages: LanguageOption[] = [
-    { languageCode: 'EN', languageName: 'English' },
-    { languageCode: 'DE', languageName: 'Deutsch' },
+    { languageCode: 'EN', languageName: 'English' }
   ];
   isLangMenuOpen = false;
 
@@ -57,8 +63,9 @@ export class HeaderComponent implements OnInit {
     this.isDark = savedTheme ? savedTheme === 'dark' : true;
     document.documentElement.classList.toggle('light-theme', !this.isDark);
 
-    const savedLang = window.localStorage.getItem('lang');
-    if (savedLang) this.currentLang = savedLang.toUpperCase();
+    // Always default to English on every page load
+    this.translationService.currentLang.set('EN');
+    this.translationService.translations.set({});
 
     this.lastScrollY = this.getScrollY();
     this.atTop = this.lastScrollY <= this.topThresholdPx;
@@ -137,8 +144,9 @@ export class HeaderComponent implements OnInit {
         this.languages = normalized.length ? normalized : this.languages;
 
         if (!this.languages.some((l) => l.languageCode === this.currentLang)) {
-          this.currentLang = this.languages[0]?.languageCode || 'EN';
-          window.localStorage.setItem('lang', this.currentLang);
+          const defaultLang = 'EN';
+          this.translationService.setLanguage(defaultLang);
+          window.localStorage.setItem('lang', defaultLang);
         }
       });
   }
@@ -182,11 +190,11 @@ export class HeaderComponent implements OnInit {
   }
 
   setLang(lang: string) {
-    this.currentLang = lang.toUpperCase();
+    const code = lang.toUpperCase();
+    this.translationService.setLanguage(code);
     this.isLangMenuOpen = false;
-    // Here you would typically call a translation service
-    window.localStorage.setItem('lang', this.currentLang);
-    console.log(`Language changed to ${this.currentLang}`);
+    window.localStorage.setItem('lang', code);
+    console.log(`Language changed to ${code}`);
   }
 
   scrollTo(section: string) {

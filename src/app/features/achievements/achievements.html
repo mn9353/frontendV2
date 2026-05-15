@@ -1,15 +1,15 @@
 <section id="achievements" class="section">
   <div class="container">
-    <h2 class="section-title">Achievements</h2>
+    <h2 class="section-title">{{ 'Achievements' | translate }}</h2>
     <div class="achievements-grid">
       <div class="achievement-card premium-card" *ngFor="let achievement of achievements()"
            [style.border-top-color]="achievement.highlightColor || 'var(--border-color)'">
         <div class="achievement-icon" *ngIf="achievement.iconName">
           <i [class]="'ri-' + achievement.iconName"></i>
         </div>
-        <div class="achievement-metric">{{ achievement.metricValue }}</div>
-        <div class="achievement-label">{{ achievement.metricLabel }}</div>
-        <p class="achievement-desc text-muted" *ngIf="achievement.description">{{ achievement.description }}</p>
+        <div class="achievement-metric">{{ achievement.metricValue | translate }}</div>
+        <div class="achievement-label">{{ achievement.metricLabel | translate }}</div>
+        <p class="achievement-desc text-muted" *ngIf="achievement.description">{{ achievement.description | translate }}</p>
       </div>
     </div>
   </div>

@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { Skill } from '../../core/models/portfolio.models';
 import { PortfolioService } from '../../core/services/portfolio.service';
 import { RevealOnScrollDirective } from '../../shared/directives/reveal-on-scroll.directive';
+import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-skills',
   standalone: true,
-  imports: [CommonModule, RevealOnScrollDirective],
+  imports: [CommonModule, RevealOnScrollDirective, TranslatePipe],
   templateUrl: './skills.html',
   styleUrls: ['./skills.scss']
 })

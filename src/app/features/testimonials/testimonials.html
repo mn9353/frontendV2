@@ -1,6 +1,6 @@
 <section id="testimonials" class="section" *ngIf="testimonials().length > 0">
   <div class="container">
-    <h2 class="section-title">Testimonials</h2>
+    <h2 class="section-title">{{ 'Testimonials' | translate }}</h2>
     <div class="testimonials-grid">
       <div class="testimonial-card-wrapper" *ngFor="let t of testimonials(); let i = index">
         <div class="testimonial-card premium-card">
@@ -10,16 +10,16 @@
               {{ t.clientName?.charAt(0) }}
             </div>
             <div class="author-details">
-              <span class="author-name">{{ t.clientName }}</span>
-              <span class="author-role text-muted">{{ t.role }}, {{ t.companyName }}</span>
+              <span class="author-name">{{ t.clientName | translate }}</span>
+              <span class="author-role text-muted">{{ t.role | translate }}, {{ t.companyName | translate }}</span>
             </div>
           </div>
           <div class="quote-icon"><i class="ri-double-quotes-l"></i></div>
           <p class="testimonial-text text-secondary">
-            {{ expandedTestimonials()[i] || t.content!.length <= 150 ? t.content : (t.content | slice:0:150) + '...' }}
+            {{ expandedTestimonials()[i] || t.content!.length <= 150 ? (t.content | translate) : ((t.content | translate | slice:0:150) + '...') }}
           </p>
           <button class="view-more-btn" *ngIf="t.content && t.content.length > 150" (click)="toggleTestimonial(i)">
-            {{ expandedTestimonials()[i] ? 'View Less' : 'Read More' }}
+            {{ (expandedTestimonials()[i] ? 'View Less' : 'Read More') | translate }}
           </button>
         </div>
       </div>

@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { Project, ProjectDetail, Skill } from '../../core/models/portfolio.models';
 import { PortfolioService } from '../../core/services/portfolio.service';
 import { FormatTextPipe } from '../../shared/pipes/format-text.pipe';
+import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-projects',
   standalone: true,
-  imports: [CommonModule, FormatTextPipe],
+  imports: [CommonModule, FormatTextPipe, TranslatePipe],
   templateUrl: './projects.html',
   styleUrls: ['./projects.scss']
 })

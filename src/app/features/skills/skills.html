@@ -1,22 +1,22 @@
 <section id="skills" class="section">
   <div class="container">
-    <h2 class="section-title">Skills</h2>
+    <h2 class="section-title">{{ 'Skills' | translate }}</h2>
 
     <div class="skill-groups">
       <article class="skill-group-card premium-card" appRevealOnScroll *ngFor="let group of categories()">
         <header class="group-header">
           <div class="group-title">
-            <h3 class="group-name">{{ group }}</h3>
+            <h3 class="group-name">{{ group | translate }}</h3>
           </div>
           <p class="group-sub text-secondary">
-            {{ group === 'Frontend' ? 'UI engineering, state, and performance.' :
+            {{ (group === 'Frontend' ? 'UI engineering, state, and performance.' :
                group === 'Backend' ? 'APIs, auth, and architecture.' :
                group === 'Full Stack' ? 'End-to-end development and architecture.' :
                group === 'Database' ? 'Data modeling and query performance.' :
                group === 'DevOps & Cloud' ? 'Deployments, containers, and infra.' :
                group === 'Languages' ? 'Daily drivers and fundamentals.' :
                group === 'Tools' ? 'Essential tooling and utilities.' :
-               'Other frameworks and libraries.' }}
+               'Other frameworks and libraries.') | translate }}
           </p>
         </header>
 
@@ -32,7 +32,7 @@
               </div>
 
               <div class="skill-item-text">
-                <span class="skill-item-name">{{ skill.skillName }}</span>
+                <span class="skill-item-name">{{ skill.skillName | translate }}</span>
               </div>
             </div>
           </div>

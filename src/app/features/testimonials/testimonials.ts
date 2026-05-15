@@ -2,11 +2,12 @@ import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Testimonial } from '../../core/models/portfolio.models';
 import { PortfolioService } from '../../core/services/portfolio.service';
+import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 
 @Component({
   selector: 'app-testimonials',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TranslatePipe],
   templateUrl: './testimonials.html',
   styleUrls: ['./testimonials.scss']
 })

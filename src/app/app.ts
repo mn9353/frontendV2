@@ -70,29 +70,30 @@ export class App implements OnInit {
     this.isHidingLoader.set(false);
     this.errorMessage.set(null);
     
-    // Force a minimum display time for the signature animation to finish drawing
+    // Minimum display time so the signature wipe animation fully plays
     const minLoadTime = new Promise(resolve => setTimeout(resolve, 2000));
     
     this.portfolioService.getProfile().subscribe({
       next: async (data: Profile) => {
+        // Set profile IMMEDIATELY — page content is ready behind the loader
         this.profile.set(data);
         
-        await minLoadTime; // Wait for signature animation
+        // Wait for the signature animation to finish before fading out
+        await minLoadTime;
         
-        this.isHidingLoader.set(true); // Trigger fade out
+        this.isHidingLoader.set(true); // Trigger CSS fade out
         setTimeout(() => {
-          this.loading.set(false); // Remove from DOM
-        }, 1000); // Wait 1s for CSS fade out to finish
+          this.loading.set(false); // Remove loader from DOM after fade
+        }, 800);
       },
       error: async (err: any) => {
         await minLoadTime;
         console.error('Error fetching profile', err);
         this.errorMessage.set(`Connection failed: ${err.message || 'Server unreachable'}`);
-        // If error, we still fade out the loader and show error inline
         this.isHidingLoader.set(true);
         setTimeout(() => {
           this.loading.set(false);
-        }, 1000);
+        }, 800);
       }
     });
   }

@@ -1,34 +1,34 @@
 <section id="experience" class="section">
   <div class="container">
-    <h2 class="section-title">Experience</h2>
+    <h2 class="section-title">{{ 'Experience' | translate }}</h2>
     
     <div class="timeline">
       <div class="timeline-item glass-panel" *ngFor="let exp of experiences(); let i = index">
         <div class="timeline-header">
           <div class="timeline-title">
-            <h3>{{ exp.role }}</h3>
+            <h3>{{ exp.role | translate }}</h3>
             <div class="company-row">
               <img *ngIf="exp.companyLogoUrl" [src]="exp.companyLogoUrl" [alt]="exp.companyName" class="company-logo" />
-              <span class="company">{{ exp.companyName }}</span>
-              <span class="location" *ngIf="exp.location">{{ exp.location }}</span>
-              <span class="metric-badge" *ngIf="exp.highlightMetric">{{ exp.highlightMetric }}</span>
+              <span class="company">{{ exp.companyName | translate }}</span>
+              <span class="location" *ngIf="exp.location">{{ exp.location | translate }}</span>
+              <span class="metric-badge" *ngIf="exp.highlightMetric">{{ exp.highlightMetric | translate }}</span>
             </div>
           </div>
           <div class="timeline-meta">
-            <span class="date">{{ formatDate(exp.startDate) }} - {{ exp.isCurrent ? 'Present' : formatDate(exp.endDate) }}</span>
+            <span class="date">{{ formatDate(exp.startDate) }} - {{ exp.isCurrent ? ('Present' | translate) : formatDate(exp.endDate) }}</span>
           </div>
         </div>
         
         <p class="timeline-desc text-secondary" *ngIf="exp.shortDescription">
-          {{ exp.shortDescription }}
+          {{ exp.shortDescription | translate }}
         </p>
         
         <div *ngIf="exp.descriptionPoints && exp.descriptionPoints.length > 0">
           <ul class="timeline-points text-secondary">
-            <li *ngFor="let point of (expandedExperiences()[i] ? exp.descriptionPoints : (exp.descriptionPoints | slice:0:3))">{{ point }}</li>
+            <li *ngFor="let point of (expandedExperiences()[i] ? exp.descriptionPoints : (exp.descriptionPoints | slice:0:3))">{{ point | translate }}</li>
           </ul>
           <button class="view-more-btn" *ngIf="exp.descriptionPoints.length > 3" (click)="toggleExperience(i)">
-            {{ expandedExperiences()[i] ? 'View Less' : 'View More' }}
+            {{ (expandedExperiences()[i] ? 'View Less' : 'View More') | translate }}
           </button>
         </div>
         
@@ -38,7 +38,7 @@
                  [src]="getSkillIcon(tech.technology).logoUrl!"
                  [alt]="tech.technology"
                  class="tech-icon" />
-            <span>{{ tech.technology }}</span>
+            <span>{{ tech.technology | translate }}</span>
           </div>
         </div>
       </div>
