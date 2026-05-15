@@ -9,11 +9,11 @@
       <div class="contact-actions">
         <a *ngIf="profile?.email" [href]="'mailto:' + profile?.email" class="btn btn-primary">
           <i class="ri-mail-send-line"></i>
-          {{ 'Send me an email' | translate }}
+          {{ 'Email' | translate }}
         </a>
         <a *ngIf="whatsAppUrl" [href]="whatsAppUrl" target="_blank" rel="noopener" class="btn btn-outline">
           <i class="ri-whatsapp-line"></i>
-          {{ 'WhatsApp me' | translate }}
+          {{ 'WhatsApp' | translate }}
         </a>
       </div>
       <div class="contact-social">

@@ -16,6 +16,23 @@
   }
 }
 
+/* Touch-device scroll-hover for group cards */
+@media (hover: none) and (pointer: coarse) {
+  .skill-group-card {
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                background 0.4s ease,
+                border-color 0.4s ease,
+                box-shadow 0.4s ease;
+  }
+
+  .skill-group-card.in-view {
+    transform: translateY(-8px);
+    background: var(--bg-surface-hover);
+    border-color: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px var(--accent-glow);
+  }
+}
+
 .group-header {
   display: flex;
   flex-direction: column;
@@ -73,6 +90,27 @@
     transform: translateY(-3px);
     background: var(--bg-surface-hover);
     border-color: rgba(255, 255, 255, 0.2);
+  }
+}
+
+/* ─── Mobile scroll-hover effect ───────────────────────────────────────────
+   On touch devices there is no mouse, so :hover never fires.
+   The JS IntersectionObserver adds .in-view when a card enters the
+   centre band of the viewport, giving the same "activated" feel.
+   Scoped to (hover: none) so it NEVER affects desktop mouse users.       */
+@media (hover: none) and (pointer: coarse) {
+  .skill-item {
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                background 0.35s ease,
+                border-color 0.35s ease,
+                box-shadow 0.35s ease;
+  }
+
+  .skill-item.in-view {
+    transform: translateY(-3px);
+    background: var(--bg-surface-hover);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
   }
 }
 
