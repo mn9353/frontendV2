@@ -43,11 +43,8 @@
 <div class="cinematic-loader" *ngIf="loading()" [class.hiding]="isHidingLoader()">
   <div class="signature-wrapper">
     <!-- Dynamically swap signature based on theme -->
-    <img
-      [src]="isDark() ? 'my_sign_white.webp' : 'my_sign_black.webp'"
+    <img [src]="isDark() ? 'my_sign_white.webp' : 'my_sign_black.webp'"
       [attr.data-fallback]="isDark() ? 'https://nhrwkotrxyczxdpkuney.supabase.co/storage/v1/object/public/portfolio_images/other_photos/my_sign_white.webp' : 'https://nhrwkotrxyczxdpkuney.supabase.co/storage/v1/object/public/portfolio_images/other_photos/my_sign_black.webp'"
-      (error)="onSignatureError($event)"
-      alt="Loading"
-      class="signature-ink" />
+      (error)="onSignatureError($event)" alt="Loading" class="signature-ink" />
   </div>
 </div>
