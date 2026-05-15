@@ -1,4 +1,4 @@
-import { Component, DestroyRef, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 
@@ -19,8 +19,8 @@ import { RevealOnScrollDirective } from './shared/directives/reveal-on-scroll.di
 
 // Service & Models
 import { PortfolioService } from './core/services/portfolio.service';
+import { TranslationService } from './core/services/translation.service';
 import { Profile } from './core/models/portfolio.models';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-root',
@@ -44,13 +44,12 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 })
 export class App implements OnInit {
   portfolioService = inject(PortfolioService);
-  private destroyRef = inject(DestroyRef);
+  translationService = inject(TranslationService);
   
   profile = signal<Profile | null>(null);
   loading = signal<boolean>(true);
   isHidingLoader = signal<boolean>(false);
   errorMessage = signal<string | null>(null);
-  usingDemoData = signal<boolean>(false);
   isDark = signal<boolean>(true);
 
   ngOnInit() {
@@ -58,10 +57,6 @@ export class App implements OnInit {
       const savedTheme = window.localStorage.getItem('theme');
       this.isDark.set(savedTheme ? savedTheme === 'dark' : true);
     }
-    this.portfolioService.mockMode$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((isMock) => this.usingDemoData.set(isMock));
-
     this.fetchProfile();
   }
 
@@ -96,5 +91,14 @@ export class App implements OnInit {
         }, 800);
       }
     });
+  }
+
+  /** If the local bundled signature fails to load, fall back to the CDN URL */
+  onSignatureError(event: Event) {
+    const img = event.target as HTMLImageElement;
+    const fallback = img.getAttribute('data-fallback');
+    if (fallback && img.src !== fallback) {
+      img.src = fallback;
+    }
   }
 }

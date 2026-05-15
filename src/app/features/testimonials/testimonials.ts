@@ -13,19 +13,23 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 })
 export class TestimonialsComponent implements OnInit {
   testimonials = signal<Testimonial[]>([]);
-  expandedTestimonials = signal<Record<number, boolean>>({});
+  allExpanded = signal<boolean>(false);
+  hasError = signal<boolean>(false);
   portfolioService = inject(PortfolioService);
 
-  toggleTestimonial(index: number) {
-    this.expandedTestimonials.update(prev => ({
-      ...prev,
-      [index]: !prev[index]
-    }));
+  toggleAll() {
+    this.allExpanded.update(v => !v);
   }
 
   ngOnInit() {
-    this.portfolioService.getTestimonials().subscribe(data => {
-      this.testimonials.set(data);
+    this.portfolioService.getTestimonials().subscribe({
+      next: data => { this.testimonials.set(data); this.hasError.set(false); },
+      error: () => this.hasError.set(true)
     });
+  }
+
+  retry() {
+    this.hasError.set(false);
+    this.ngOnInit();
   }
 }

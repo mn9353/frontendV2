@@ -81,23 +81,128 @@
   }
 }
 
-.error-container {
+.critical-error-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9000; /* above header (100) and below loader (9999) */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-primary);
+  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.critical-error-inner {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1rem;
-  max-width: 400px;
+  gap: 1.25rem;
   text-align: center;
-  padding: var(--spacing-xl);
-  
-  i {
-    font-size: 3rem;
-    color: #ef4444;
-  }
-  
-  p {
+  max-width: 420px;
+  padding: 2rem;
+}
+
+.critical-error-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 1px solid var(--control-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  font-size: 1.6rem;
+  background: var(--bg-surface);
+  animation: pulseRing 3s ease-in-out infinite;
+}
+
+.critical-error-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.critical-error-sub {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.critical-error-btn {
+  margin-top: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  font-family: var(--font-family);
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  padding: 0;
+  cursor: pointer;
+  transition: color 0.25s ease;
+
+  i { font-size: 0.9rem; }
+
+  &:hover {
     color: var(--text-secondary);
-    font-size: 0.95rem;
-    margin-bottom: 0.5rem;
   }
+}
+
+.critical-error-detail {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  opacity: 0.6;
+  font-family: monospace;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Reusable inline section error state */
+.section-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 3rem 1rem;
+  text-align: center;
+  color: var(--text-muted);
+
+  i {
+    font-size: 1.5rem;
+    opacity: 0.5;
+  }
+
+  p {
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  button {
+    font-size: 0.8rem;
+    padding: 0.4rem 1rem;
+    border-radius: 999px;
+    border: 1px solid var(--control-border);
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: background 0.2s ease;
+
+    &:hover { background: var(--bg-surface-hover); }
+  }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulseRing {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(255,255,255,0.04); }
+  50%       { box-shadow: 0 0 0 10px rgba(255,255,255,0); }
 }

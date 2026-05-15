@@ -1,12 +1,28 @@
-<section id="testimonials" class="section" *ngIf="testimonials().length > 0">
+<section id="testimonials" class="section" *ngIf="testimonials().length > 0 || hasError()">
   <div class="container">
-    <h2 class="section-title">{{ 'Testimonials' | translate }}</h2>
-    <div class="testimonials-grid">
-      <div class="testimonial-card-wrapper" *ngFor="let t of testimonials(); let i = index">
+    <div class="testimonials-header">
+      <h2 class="section-title">{{ 'Testimonials' | translate }}</h2>
+      <button class="testimonials-expand-btn" [class.expanded]="allExpanded()"
+              (click)="toggleAll()"
+              *ngIf="!hasError() && testimonials().length > 0">
+        {{ (allExpanded() ? 'Collapse' : 'Read all') | translate }}
+        <i class="ri-arrow-down-s-line"></i>
+      </button>
+    </div>
+
+    <div class="section-error" *ngIf="hasError()">
+      <div class="section-error-icon"><i class="ri-code-s-slash-line"></i></div>
+      <p class="section-error-title">Somewhere, a semicolon is missing.</p>
+      <p class="section-error-sub">The backend team (me) is investigating.</p>
+      <button class="section-error-btn" (click)="retry()"><i class="ri-refresh-line"></i> Try again</button>
+    </div>
+
+    <div class="testimonials-grid" *ngIf="!hasError()">
+      <div class="testimonial-card-wrapper" *ngFor="let t of testimonials()">
         <div class="testimonial-card premium-card">
           <div class="testimonial-author">
             <img *ngIf="t.profileImageUrl" [src]="t.profileImageUrl" [alt]="t.clientName" class="author-avatar">
-            <div class="author-info" *ngIf="!t.profileImageUrl" class="author-avatar-placeholder">
+            <div *ngIf="!t.profileImageUrl" class="author-avatar-placeholder">
               {{ t.clientName?.charAt(0) }}
             </div>
             <div class="author-details">
@@ -15,12 +31,9 @@
             </div>
           </div>
           <div class="quote-icon"><i class="ri-double-quotes-l"></i></div>
-          <p class="testimonial-text text-secondary">
-            {{ expandedTestimonials()[i] || t.content!.length <= 150 ? (t.content | translate) : ((t.content | translate | slice:0:150) + '...') }}
+          <p class="testimonial-text text-secondary" [class.expanded]="allExpanded()">
+            {{ t.content | translate }}
           </p>
-          <button class="view-more-btn" *ngIf="t.content && t.content.length > 150" (click)="toggleTestimonial(i)">
-            {{ (expandedTestimonials()[i] ? 'View Less' : 'Read More') | translate }}
-          </button>
         </div>
       </div>
     </div>

@@ -2,7 +2,14 @@
   <div class="container">
     <h2 class="section-title">{{ 'Skills' | translate }}</h2>
 
-    <div class="skill-groups">
+    <div class="section-error" *ngIf="hasError()">
+      <div class="section-error-icon"><i class="ri-code-s-slash-line"></i></div>
+      <p class="section-error-title">Somewhere, a semicolon is missing.</p>
+      <p class="section-error-sub">The backend team (me) is investigating.</p>
+      <button class="section-error-btn" (click)="retry()"><i class="ri-refresh-line"></i> Try again</button>
+    </div>
+
+    <div class="skill-groups" *ngIf="!hasError()">
       <article class="skill-group-card premium-card" appRevealOnScroll *ngFor="let group of categories()">
         <header class="group-header">
           <div class="group-title">

@@ -1,7 +1,53 @@
+.testimonials-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: var(--spacing-lg);
+  overflow: visible; /* prevent carousel's overflow-x from clipping heading */
+
+  .section-title {
+    margin-bottom: 0;
+    overflow: visible;
+  }
+}
+
+.testimonials-expand-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-family: var(--font-family);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  padding: 0;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: color 0.25s ease;
+  flex-shrink: 0;
+
+  i {
+    font-size: 0.9rem;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  &.expanded i {
+    transform: rotate(180deg);
+  }
+
+  &:hover {
+    color: var(--text-secondary);
+  }
+}
+
 .testimonials-grid {
   display: flex;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
+  align-items: stretch; /* uniform card heights — essential for carousel premium look */
 
   &::-webkit-scrollbar {
     height: 6px;
@@ -49,6 +95,17 @@
   line-height: 1.8;
   flex: 1;
   font-style: italic;
+  /* Collapsed: 3-line clamp */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 3;
+  transition: -webkit-line-clamp 0.3s ease;
+
+  &.expanded {
+    -webkit-line-clamp: unset;
+    overflow: visible;
+  }
 }
 
 .testimonial-author {
@@ -94,23 +151,4 @@
 
 .author-role {
   font-size: 0.8rem;
-}
-
-.view-more-btn {
-  background: transparent;
-  border: none;
-  color: var(--accent-primary);
-  font-size: 0.9rem;
-  font-weight: 500;
-  cursor: pointer;
-  padding: 0;
-  margin-top: auto;
-  transition: color var(--transition-normal);
-  display: inline-block;
-  align-self: flex-start;
-  
-  &:hover {
-    color: var(--text-primary);
-    text-decoration: underline;
-  }
 }

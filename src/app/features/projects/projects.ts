@@ -17,6 +17,7 @@ export class ProjectsComponent implements OnInit {
   selectedProject = signal<Project | null>(null);
   projectDetails = signal<ProjectDetail | null>(null);
   skillsMap = signal<Map<string, Skill>>(new Map());
+  hasError = signal<boolean>(false);
   portfolioService = inject(PortfolioService);
 
   @ViewChild('projectModal') projectModal!: ElementRef<HTMLDialogElement>;
@@ -58,8 +59,9 @@ export class ProjectsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.portfolioService.getProjects().subscribe(data => {
-      this.projects.set(data);
+    this.portfolioService.getProjects().subscribe({
+      next: data => { this.projects.set(data); this.hasError.set(false); },
+      error: () => this.hasError.set(true)
     });
 
     this.portfolioService.getSkills().subscribe(skills => {
@@ -67,6 +69,11 @@ export class ProjectsComponent implements OnInit {
       skills.forEach(skill => map.set(skill.skillName.toLowerCase(), skill));
       this.skillsMap.set(map);
     });
+  }
+
+  retry() {
+    this.hasError.set(false);
+    this.ngOnInit();
   }
 
   getTechIcon(techName: string): { logoUrl?: string } {

@@ -193,8 +193,6 @@ export class HeaderComponent implements OnInit {
     const code = lang.toUpperCase();
     this.translationService.setLanguage(code);
     this.isLangMenuOpen = false;
-    window.localStorage.setItem('lang', code);
-    console.log(`Language changed to ${code}`);
   }
 
   scrollTo(section: string) {

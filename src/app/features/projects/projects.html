@@ -1,7 +1,15 @@
 <section id="projects" class="section">
   <div class="container">
     <h2 class="section-title">{{ 'Projects' | translate }}</h2>
-    <div class="projects-grid">
+
+    <div class="section-error" *ngIf="hasError()">
+      <div class="section-error-icon"><i class="ri-code-s-slash-line"></i></div>
+      <p class="section-error-title">Somewhere, a semicolon is missing.</p>
+      <p class="section-error-sub">The backend team (me) is investigating.</p>
+      <button class="section-error-btn" (click)="retry()"><i class="ri-refresh-line"></i> Try again</button>
+    </div>
+
+    <div class="projects-grid" *ngIf="!hasError()">
       <div class="project-card-wrapper" *ngFor="let project of projects()">
         <div class="project-card premium-card" (click)="openProject(project)" style="cursor: pointer;">
           <div class="project-cover" *ngIf="project.coverImageUrl">

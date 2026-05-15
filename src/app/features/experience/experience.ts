@@ -15,6 +15,7 @@ export class ExperienceComponent implements OnInit {
   experiences = signal<Experience[]>([]);
   skillsMap = signal<Map<string, Skill>>(new Map());
   expandedExperiences = signal<Record<number, boolean>>({});
+  hasError = signal<boolean>(false);
   portfolioService = inject(PortfolioService);
 
   toggleExperience(index: number) {
@@ -33,9 +34,15 @@ export class ExperienceComponent implements OnInit {
       this.skillsMap.set(map);
     });
 
-    this.portfolioService.getExperiences().subscribe(data => {
-      this.experiences.set(data);
+    this.portfolioService.getExperiences().subscribe({
+      next: data => { this.experiences.set(data); this.hasError.set(false); },
+      error: () => this.hasError.set(true)
     });
+  }
+
+  retry() {
+    this.hasError.set(false);
+    this.ngOnInit();
   }
 
   getSkillIcon(techName: string): { logoUrl?: string; brandColor?: string } {

@@ -1,13 +1,6 @@
 <div class="glow-bg"></div>
 <app-header [profile]="profile()"></app-header>
 
-<div class="demo-banner" *ngIf="usingDemoData()">
-  <div class="container demo-banner-inner">
-    <i class="ri-cloud-off-line"></i>
-    <span>Showing demo data (API unreachable). Update your backend/CORS or set the correct API URL.</span>
-    <button class="btn btn-outline demo-banner-btn" (click)="fetchProfile()">Retry</button>
-  </div>
-</div>
 
 <main *ngIf="profile()">
   <app-hero appRevealOnScroll [profile]="profile()"></app-hero>
@@ -20,23 +13,41 @@
   <app-contact appRevealOnScroll [profile]="profile()"></app-contact>
 </main>
 
-<!-- Fallback error view -->
-<div class="container" style="padding-top: 150px; display: flex; justify-content: center;" *ngIf="!loading() && !profile() && errorMessage()">
-  <div class="error-container premium-card">
-    <i class="ri-error-warning-line"></i>
-    <p>{{ errorMessage() }}</p>
-    <button class="btn btn-outline" (click)="fetchProfile()">Retry Connection</button>
+<!-- Premium full-screen error state (profile API failed) -->
+<div class="critical-error-screen" *ngIf="!loading() && !profile() && errorMessage()">
+  <div class="critical-error-inner">
+    <div class="critical-error-icon">
+      <i class="ri-code-s-slash-line"></i>
+    </div>
+    <h2 class="critical-error-title">Somewhere, a semicolon is missing.</h2>
+    <p class="critical-error-sub">The backend team (me) is investigating.<br>Sit tight - or come back in a bit.</p>
+    <button class="critical-error-btn" (click)="fetchProfile()">
+      <i class="ri-refresh-line"></i>
+      Try again
+    </button>
   </div>
 </div>
 
 <app-footer *ngIf="profile()" [profile]="profile()"></app-footer>
 
+<!-- Translation error toast (2s auto-dismiss) -->
+<div class="translation-toast" *ngIf="translationService.showTranslationError()">
+  <i class="ri-cup-line"></i>
+  <div class="translation-toast-text">
+    <span class="translation-toast-title">Translation took a coffee break.</span>
+    <span class="translation-toast-sub">Showing English for now.</span>
+  </div>
+</div>
+
 <!-- Cinematic Loader Overlay -->
 <div class="cinematic-loader" *ngIf="loading()" [class.hiding]="isHidingLoader()">
   <div class="signature-wrapper">
     <!-- Dynamically swap signature based on theme -->
-    <img [src]="isDark() ? 'https://nhrwkotrxyczxdpkuney.supabase.co/storage/v1/object/public/portfolio_images/other_photos/my_sign_white.webp' : 'https://nhrwkotrxyczxdpkuney.supabase.co/storage/v1/object/public/portfolio_images/other_photos/my_sign_black.webp'" 
-         alt="Loading" 
-         class="signature-ink" />
+    <img
+      [src]="isDark() ? 'my_sign_white.webp' : 'my_sign_black.webp'"
+      [attr.data-fallback]="isDark() ? 'https://nhrwkotrxyczxdpkuney.supabase.co/storage/v1/object/public/portfolio_images/other_photos/my_sign_white.webp' : 'https://nhrwkotrxyczxdpkuney.supabase.co/storage/v1/object/public/portfolio_images/other_photos/my_sign_black.webp'"
+      (error)="onSignatureError($event)"
+      alt="Loading"
+      class="signature-ink" />
   </div>
 </div>

@@ -13,11 +13,18 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 })
 export class AchievementsComponent implements OnInit {
   achievements = signal<Achievement[]>([]);
+  hasError = signal<boolean>(false);
   portfolioService = inject(PortfolioService);
 
   ngOnInit() {
-    this.portfolioService.getAchievements().subscribe(data => {
-      this.achievements.set(data);
+    this.portfolioService.getAchievements().subscribe({
+      next: data => { this.achievements.set(data); this.hasError.set(false); },
+      error: () => this.hasError.set(true)
     });
+  }
+
+  retry() {
+    this.hasError.set(false);
+    this.ngOnInit();
   }
 }

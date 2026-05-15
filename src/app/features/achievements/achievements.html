@@ -1,7 +1,15 @@
 <section id="achievements" class="section">
   <div class="container">
     <h2 class="section-title">{{ 'Achievements' | translate }}</h2>
-    <div class="achievements-grid">
+
+    <div class="section-error" *ngIf="hasError()">
+      <div class="section-error-icon"><i class="ri-code-s-slash-line"></i></div>
+      <p class="section-error-title">Somewhere, a semicolon is missing.</p>
+      <p class="section-error-sub">The backend team (me) is investigating.</p>
+      <button class="section-error-btn" (click)="retry()"><i class="ri-refresh-line"></i> Try again</button>
+    </div>
+
+    <div class="achievements-grid" *ngIf="!hasError()">
       <div class="achievement-card premium-card" *ngFor="let achievement of achievements()"
            [style.border-top-color]="achievement.highlightColor || 'var(--border-color)'">
         <div class="achievement-icon" *ngIf="achievement.iconName">

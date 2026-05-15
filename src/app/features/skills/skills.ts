@@ -16,6 +16,7 @@ export class SkillsComponent implements OnInit {
   skills = signal<Skill[]>([]);
   groupedSkills = signal<Record<string, Skill[]>>({});
   categories = signal<string[]>([]);
+  hasError = signal<boolean>(false);
   portfolioService = inject(PortfolioService);
 
   private normalizeGroup(skill: Skill): string {
@@ -45,26 +46,35 @@ export class SkillsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.portfolioService.getSkills().subscribe(data => {
-      this.skills.set(data);
-      const grouped = data.reduce((acc, skill) => {
-        const cat = this.normalizeGroup(skill);
-        if (!acc[cat]) acc[cat] = [];
-        acc[cat].push(skill);
-        return acc;
-      }, {} as Record<string, Skill[]>);
-      
-      this.groupedSkills.set(grouped);
-      const order = ['Frontend', 'Backend', 'Full Stack', 'Database', 'DevOps & Cloud', 'Languages', 'Tools', 'Other'];
-      const keys = Object.keys(grouped).sort((a, b) => {
-        const ai = order.indexOf(a);
-        const bi = order.indexOf(b);
-        if (ai === -1 && bi === -1) return a.localeCompare(b);
-        if (ai === -1) return 1;
-        if (bi === -1) return -1;
-        return ai - bi;
-      });
-      this.categories.set(keys);
+    this.portfolioService.getSkills().subscribe({
+      next: data => {
+        this.hasError.set(false);
+        this.skills.set(data);
+        const grouped = data.reduce((acc, skill) => {
+          const cat = this.normalizeGroup(skill);
+          if (!acc[cat]) acc[cat] = [];
+          acc[cat].push(skill);
+          return acc;
+        }, {} as Record<string, Skill[]>);
+        
+        this.groupedSkills.set(grouped);
+        const order = ['Frontend', 'Backend', 'Full Stack', 'Database', 'DevOps & Cloud', 'Languages', 'Tools', 'Other'];
+        const keys = Object.keys(grouped).sort((a, b) => {
+          const ai = order.indexOf(a);
+          const bi = order.indexOf(b);
+          if (ai === -1 && bi === -1) return a.localeCompare(b);
+          if (ai === -1) return 1;
+          if (bi === -1) return -1;
+          return ai - bi;
+        });
+        this.categories.set(keys);
+      },
+      error: () => this.hasError.set(true)
     });
+  }
+
+  retry() {
+    this.hasError.set(false);
+    this.ngOnInit();
   }
 }

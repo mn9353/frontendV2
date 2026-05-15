@@ -13,13 +13,23 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
 export class ContactComponent {
   @Input() profile: Profile | null = null;
 
+  get whatsAppUrl(): string | null {
+    const phone = this.profile?.phoneNumber;
+    if (!phone) return null;
+    // Strip everything except digits and leading +
+    const cleaned = phone.replace(/[\s\-()]/g, '');
+    const firstName = this.profile?.fullName?.split(' ')[0] ?? 'there';
+    const message = encodeURIComponent(
+      `Hey ${firstName}, just explored your portfolio - wanted to connect with you.`
+    );
+    return `https://wa.me/${cleaned}?text=${message}`;
+  }
+
   formatUrl(url: string | undefined | null): string {
     if (!url) return '#';
-    // If it's an email link or already has http/https, return as is
     if (url.startsWith('mailto:') || url.startsWith('http://') || url.startsWith('https://')) {
       return url;
     }
-    // Otherwise, prepend https:// so it acts as an absolute external link
     return `https://${url}`;
   }
 }
