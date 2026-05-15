@@ -31,10 +31,14 @@
   overflow: hidden;
   border: 1px solid var(--border-color);
   aspect-ratio: 4/5;
+  width: 100%; /* ensures it never exceeds its grid column on mobile */
+  max-width: 360px; /* cap on mobile so it doesn't stretch the layout */
+  margin: 0 auto; /* centre it on mobile */
   
   @media (min-width: 992px) {
     max-width: 400px;
     margin-left: auto;
+    margin-right: 0;
   }
   
   &::after {

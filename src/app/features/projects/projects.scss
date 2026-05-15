@@ -3,7 +3,8 @@
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   padding-bottom: 1rem;
-  margin: 0 -1rem; /* Negative margin to pull to edges if needed, but wrapper padding handles inner space */
+  /* Removed negative margin – it caused the grid to bleed outside the viewport on mobile */
+  margin: 0;
   
   &::-webkit-scrollbar {
     height: 8px;
