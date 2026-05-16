@@ -111,8 +111,31 @@
         </div>
         
         <ng-template #loadingTpl>
-          <div class="loading-container">
-            <div class="pulse-loader"></div>
+          <div class="modal-body skeleton-mode" *ngIf="selectedProject() as project">
+            <div class="modal-cover" *ngIf="project.coverImageUrl">
+              <img [src]="project.coverImageUrl" [alt]="project.projectName">
+            </div>
+            
+            <div class="modal-info">
+              <div class="project-badges">
+                <span class="project-type text-muted" *ngIf="project.projectType">{{ project.projectType | translate }}</span>
+                <span class="featured-badge" *ngIf="project.featured">{{ 'Featured' | translate }}</span>
+              </div>
+              <h2 class="modal-title">{{ project.projectName | translate }}</h2>
+              
+              <!-- Premium Skeleton loading effect -->
+              <div class="skeleton-content">
+                <div class="skeleton-heading"></div>
+                <div class="skeleton-text" style="width: 100%"></div>
+                <div class="skeleton-text" style="width: 92%"></div>
+                <div class="skeleton-text" style="width: 96%"></div>
+                <div class="skeleton-text" style="width: 70%"></div>
+                
+                <div class="skeleton-heading mt-4"></div>
+                <div class="skeleton-text" style="width: 100%"></div>
+                <div class="skeleton-text" style="width: 85%"></div>
+              </div>
+            </div>
           </div>
         </ng-template>
       </div>

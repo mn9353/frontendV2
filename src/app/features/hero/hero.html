@@ -21,7 +21,7 @@
       </p>
       
       <div class="hero-actions">
-        <a href="#projects" class="btn btn-primary pill">{{'View Projects'|translate}}</a>
+        <a (click)="scrollToProjects($event)" class="btn btn-primary pill" style="cursor: pointer;">{{'View Projects'|translate}}</a>
         <a *ngIf="profile?.resumeUrl" [href]="formatUrl(profile?.resumeUrl)" target="_blank" download class="btn btn-outline pill">{{'Download Resume'|translate}}</a>
       </div>
     </div>

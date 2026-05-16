@@ -144,8 +144,9 @@
     font-size: 0.95rem;
     
     @media (min-width: 500px) {
-      width: 220px; /* Uniform width for both buttons */
-      padding: 1rem 0; /* Let flexbox center the content */
+      min-width: 220px; /* Uniform width, but allows expanding for longer translations */
+      width: auto;
+      padding: 1rem 2rem; /* Restore horizontal padding for expanded state */
       font-size: 1rem;
     }
   }

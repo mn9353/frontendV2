@@ -24,7 +24,10 @@ export class ProjectsComponent implements OnInit {
 
   openProject(project: Project) {
     this.selectedProject.set(project);
-    if (typeof document !== 'undefined') document.body.style.overflow = 'hidden';
+    if (typeof document !== 'undefined') {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+    }
     
     if (this.projectModal) {
       this.projectModal.nativeElement.showModal();
@@ -41,7 +44,10 @@ export class ProjectsComponent implements OnInit {
     }
     this.selectedProject.set(null);
     this.projectDetails.set(null);
-    if (typeof document !== 'undefined') document.body.style.overflow = '';
+    if (typeof document !== 'undefined') {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    }
   }
 
   onDialogClick(event: MouseEvent) {

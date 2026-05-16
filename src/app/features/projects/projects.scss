@@ -350,6 +350,57 @@
   }
 }
 
+/* Skeleton Loading Effect */
+.skeleton-content {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.skeleton-heading {
+  height: 20px;
+  width: 140px;
+  background: rgba(128, 128, 128, 0.2);
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-heading.mt-4 {
+  margin-top: 1.5rem;
+}
+
+.skeleton-text {
+  height: 14px;
+  background: rgba(128, 128, 128, 0.2);
+  border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+}
+
+.skeleton-heading::after,
+.skeleton-text::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(128, 128, 128, 0.4),
+    transparent
+  );
+  animation: shimmer 1.5s infinite ease-in-out;
+}
+
+@keyframes shimmer {
+  100% { transform: translateX(300%); }
+}
+
 @keyframes slideUp {
   from { transform: translateY(100%); }
   to { transform: translateY(0); }

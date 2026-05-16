@@ -28,7 +28,8 @@
     width: 100%;
     
     @media (min-width: 500px) {
-      width: 160px; /* Uniform width for both buttons */
+      min-width: 160px; /* Uniform width, but allows expanding for longer translations */
+      width: auto;
     }
   }
 }

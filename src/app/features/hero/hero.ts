@@ -20,4 +20,9 @@ export class HeroComponent {
     }
     return `https://${url}`;
   }
+
+  scrollToProjects(event: Event) {
+    event.preventDefault();
+    document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
+  }
 }

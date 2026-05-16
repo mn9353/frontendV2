@@ -281,9 +281,11 @@
   border: 1px solid var(--border-color);
   border-radius: 12px;
   padding: 0.5rem;
-  width: 160px; /* Slightly wider to fit text + icon + scrollbar */
+  min-width: 180px; /* Wider to guarantee fit */
+  width: max-content; /* Allow it to naturally expand if needed */
   max-height: 280px; /* Makes the menu scrollable */
   overflow-y: auto;
+  overflow-x: hidden; /* Strictly prevent horizontal scrolling */
   overscroll-behavior: contain; /* Prevents scrolling the page when scrolling menu */
   display: flex;
   flex-direction: column;
