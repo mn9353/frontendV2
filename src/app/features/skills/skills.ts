@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterViewInit, ElementRef, inject, signal } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Skill } from '../../core/models/portfolio.models';
 import { PortfolioService } from '../../core/services/portfolio.service';
@@ -12,15 +12,12 @@ import { TranslatePipe } from '../../shared/pipes/translate.pipe';
   templateUrl: './skills.html',
   styleUrls: ['./skills.scss']
 })
-export class SkillsComponent implements OnInit, AfterViewInit, OnDestroy {
+export class SkillsComponent implements OnInit {
   skills = signal<Skill[]>([]);
   groupedSkills = signal<Record<string, Skill[]>>({});
   categories = signal<string[]>([]);
   hasError = signal<boolean>(false);
   portfolioService = inject(PortfolioService);
-
-  private elRef = inject(ElementRef);
-  private observer: IntersectionObserver | null = null;
 
   private normalizeGroup(skill: Skill): string {
     const raw = (skill.category || '').trim().toLowerCase();
@@ -59,7 +56,7 @@ export class SkillsComponent implements OnInit, AfterViewInit, OnDestroy {
           acc[cat].push(skill);
           return acc;
         }, {} as Record<string, Skill[]>);
-
+        
         this.groupedSkills.set(grouped);
         const order = ['Frontend', 'Backend', 'Full Stack', 'Database', 'DevOps & Cloud', 'Languages', 'Tools', 'Other'];
         const keys = Object.keys(grouped).sort((a, b) => {
@@ -71,9 +68,6 @@ export class SkillsComponent implements OnInit, AfterViewInit, OnDestroy {
           return ai - bi;
         });
         this.categories.set(keys);
-
-        // Re-observe newly rendered cards once Angular renders the list
-        setTimeout(() => this.observeSkillItems(), 150);
       },
       error: () => this.hasError.set(true)
     });
@@ -82,61 +76,5 @@ export class SkillsComponent implements OnInit, AfterViewInit, OnDestroy {
   retry() {
     this.hasError.set(false);
     this.ngOnInit();
-  }
-
-  ngAfterViewInit() {
-    this.observeSkillItems();
-  }
-
-  ngOnDestroy() {
-    this.observer?.disconnect();
-  }
-
-  /**
-   * Wires up scroll-based "hover" effect for touch/mobile devices only.
-   * Only the group card panels (.skill-group-card) get the lift effect —
-   * individual skill chips are intentionally left static inside the panel.
-   */
-  private observeSkillItems(): void {
-    // Guard: only run on touch/coarse-pointer devices (phones, tablets).
-    if (!window.matchMedia('(hover: none) and (pointer: coarse)').matches) return;
-
-    this.observer?.disconnect();
-
-    this.observer = new IntersectionObserver(
-      (entries) => {
-        // Find entries that are intersecting (visible within the root bounds)
-        const visible = entries.filter(e => e.isIntersecting);
-
-        if (visible.length === 0) {
-          // If nothing visible, remove class from all observed cards
-          const all = this.elRef.nativeElement.querySelectorAll('.skill-group-card');
-          all.forEach((n: Element) => n.classList.remove('in-view'));
-          return;
-        }
-
-        // Compute which visible entry is closest to the viewport vertical center
-        const viewportCenter = window.innerHeight / 2;
-        let best: {entry: IntersectionObserverEntry; distance: number} | null = null;
-
-        visible.forEach(e => {
-          const rect = (e.target as Element).getBoundingClientRect();
-          const centerY = (rect.top + rect.bottom) / 2;
-          const distance = Math.abs(centerY - viewportCenter);
-          if (!best || distance < best.distance) best = { entry: e, distance };
-        });
-
-        // Apply 'in-view' only to the best candidate, remove from others
-        const groupCards = this.elRef.nativeElement.querySelectorAll('.skill-group-card');
-        groupCards.forEach((card: Element) => {
-          if (best && card === best.entry.target) card.classList.add('in-view');
-          else card.classList.remove('in-view');
-        });
-      },
-      { root: null, rootMargin: '-40% 0px -40% 0px', threshold: 0 }
-    );
-
-    const groupCards = this.elRef.nativeElement.querySelectorAll('.skill-group-card');
-    groupCards.forEach((card: Element) => this.observer!.observe(card));
   }
 }
