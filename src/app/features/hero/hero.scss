@@ -144,8 +144,8 @@
     font-size: 0.95rem;
     
     @media (min-width: 500px) {
-      width: auto; /* Revert to auto width on phablet+ */
-      padding: 1rem 2.5rem;
+      width: 220px; /* Uniform width for both buttons */
+      padding: 1rem 0; /* Let flexbox center the content */
       font-size: 1rem;
     }
   }

@@ -23,6 +23,14 @@
   flex-wrap: wrap;
   gap: var(--spacing-md);
   margin-bottom: var(--spacing-xl);
+
+  .btn {
+    width: 100%;
+    
+    @media (min-width: 500px) {
+      width: 160px; /* Uniform width for both buttons */
+    }
+  }
 }
 
 .contact-social {

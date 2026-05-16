@@ -162,7 +162,7 @@ a {
   border-radius: 10px;
   font-weight: 500;
   font-size: 0.95rem;
-  transition: all var(--transition-normal);
+  transition: all var(--transition-normal), font-weight 0.2s ease;
   cursor: pointer;
   border: 1px solid transparent;
   gap: 0.75rem;
@@ -176,6 +176,7 @@ a {
       background: white;
       transform: translateY(-3px);
       box-shadow: 0 12px 32px var(--accent-glow);
+      font-weight: 600;
     }
   }
   
@@ -190,6 +191,8 @@ a {
       border-color: var(--control-border); /* stays visible in both themes */
       transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      font-weight: 600;
+      opacity: 0.95;
     }
   }
 }
@@ -209,6 +212,8 @@ a {
   -webkit-text-fill-color: transparent;
   padding-bottom: 0.15em;
   margin-bottom: -0.15em;
+  padding-right: 0.15em;
+  margin-right: -0.15em;
 }
 
 /* Sections */
